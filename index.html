@@ -57,6 +57,7 @@
     .info-card a { color:var(--accent); }
     .info-card .symbol { display:grid; place-items:center; width:42px; height:42px; margin-bottom:18px; border:1px solid #d6ff7c; border-radius:50%; background:var(--accent); color:#17230b; font-size:1.2rem; font-weight:900; }
     footer { padding:27px 0 42px; color:var(--muted); font-size:.86rem; }
+    .disclaimer { display:block; margin-top:7px; color:#8796a1; font-size:.8rem; }
     @media (max-width:760px) { .wrap { width:min(100% - 32px,540px); } header { gap:12px; } .order-layout { grid-template-columns:1fr; } .info-card { position:static; } .intro { padding-top:42px; } .form-card,.info-card { padding:21px; } }
   </style>
 </head>
@@ -163,7 +164,7 @@
       </aside>
     </div>
   </main>
-  <footer class="wrap">Scratch · Servicios de impresión 3D</footer>
+  <footer class="wrap">Scratch · Servicios de impresión 3D<small class="disclaimer">Proyecto escolar: Scratch y sus servicios son ficticios; no es un negocio real.</small></footer>
   <script>
     document.getElementById('pedido-form').addEventListener('submit', function (event) {
       event.preventDefault();
