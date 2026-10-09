@@ -66,9 +66,9 @@
     .logo-mark { display:block; width:54px; height:54px; flex:none; background-image:var(--logo-image,url("./logo-3dscracth.png")); background-position:center; background-repeat:no-repeat; background-size:contain; }
     .menu-trigger { display:grid; place-items:center; flex:none; width:48px; height:48px; border:1px solid var(--line); border-radius:14px; background:var(--panel); color:var(--accent); font-size:1.15rem; letter-spacing:.12em; text-decoration:none; }
     .menu-trigger:hover,.menu-trigger:focus-visible { border-color:var(--accent); background:#293a48; outline:none; }
-    .drawer { position:fixed; inset:0; z-index:100; visibility:hidden; opacity:0; pointer-events:none; background:rgba(0,0,0,.58); transition:opacity .22s ease,visibility .22s ease; }
+    .drawer { position:fixed; inset:0; z-index:100; visibility:hidden; opacity:0; pointer-events:none; background:rgba(0,0,0,.44); transition:opacity .22s ease,visibility .22s ease; }
     .drawer:target { visibility:visible; opacity:1; pointer-events:auto; }
-    .drawer-backdrop { position:absolute; inset:0; z-index:0; display:block; }
+    .drawer-backdrop { position:absolute; inset:0; z-index:0; display:block; background:transparent; backdrop-filter:none; -webkit-backdrop-filter:none; }
     .drawer-panel { position:absolute; top:0; right:0; z-index:1; display:flex; flex-direction:column; gap:12px; width:min(360px,90vw); height:100vh; height:100dvh; max-height:100dvh; overflow-y:auto; overscroll-behavior:contain; padding:20px 22px 28px; border-left:1px solid var(--line); background:#111214f7; transform:translateX(100%); transition:transform .22s ease; }
     .drawer:target .drawer-panel { transform:translateX(0); }
     .drawer-head { position:sticky; top:0; z-index:2; display:flex; align-items:center; justify-content:space-between; padding:4px 0 8px; color:var(--accent); font-weight:850; letter-spacing:.12em; background:#111214; }
