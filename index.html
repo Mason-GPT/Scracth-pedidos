@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hacer un pedido — Scratch</title>
+  <meta name="description" content="Elegí un filamento, indicá el color y contanos o adjuntá tu modelo para pedir una impresión 3D a Scratch.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hacer un pedido — Scratch">
+  <meta property="og:description" content="Elegí el filamento y el color, compartí tu modelo y agregá las especificaciones de tu impresión 3D.">
+  <meta name="theme-color" content="#101923">
+  <style>
+    :root { color-scheme:dark; --bg:#101923; --panel:#17232f; --ink:#f3f6f8; --muted:#aab8c4; --accent:#b8f34a; --line:#2c3c49; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.55; }
+    a { color:inherit; }
+    .wrap { width:min(1100px,calc(100% - 40px)); margin:auto; }
+    header { display:flex; align-items:center; justify-content:space-between; padding:26px 0; }
+    .brand { display:flex; align-items:center; gap:11px; font-size:1.18rem; font-weight:800; letter-spacing:.08em; text-decoration:none; }
+    .logo-mark { display:block; width:58px; height:58px; flex:none; }
+    .logo-mark text { font-family:inherit; font-weight:900; letter-spacing:1.2px; }
+    .menu-trigger { display:grid; place-items:center; width:48px; height:48px; border:1px solid var(--line); border-radius:14px; background:var(--panel); color:var(--accent); font-size:1.15rem; letter-spacing:.12em; text-decoration:none; }
+    .menu-trigger:hover,.menu-trigger:focus-visible { border-color:var(--accent); background:#22313b; outline:none; }
+    .drawer { position:fixed; inset:0; z-index:50; visibility:hidden; opacity:0; pointer-events:none; transition:opacity .22s ease,visibility .22s ease; }
+    .drawer:target { visibility:visible; opacity:1; pointer-events:auto; }
+    .drawer-backdrop { position:absolute; inset:0; background:#07101988; backdrop-filter:blur(7px); -webkit-backdrop-filter:blur(7px); }
+    .drawer-panel { position:absolute; top:0; right:0; display:flex; flex-direction:column; gap:24px; width:min(330px,86vw); height:100%; padding:28px 22px; border-left:1px solid var(--line); background:#101923f5; transform:translateX(100%); transition:transform .22s ease; }
+    .drawer:target .drawer-panel { transform:translateX(0); }
+    .drawer-head { display:flex; align-items:center; justify-content:space-between; color:var(--accent); font-weight:850; letter-spacing:.12em; }
+    .drawer-close { display:grid; place-items:center; width:38px; height:38px; border:1px solid var(--line); border-radius:10px; color:var(--ink); text-decoration:none; font-size:1.3rem; }
+    .drawer-links { display:flex; flex-direction:column; gap:9px; }
+    .drawer-links a { padding:13px 14px; border:1px solid var(--line); border-radius:12px; background:#17232f; color:var(--muted); text-decoration:none; font-weight:700; }
+    .drawer-links a:hover,.drawer-links a:focus-visible { border-color:var(--accent); background:var(--accent); color:#17230b; outline:none; }
+    .intro { padding:58px 0 36px; }
+    .eyebrow { color:var(--accent); font-size:.78rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
+    h1 { margin:12px 0 15px; font-size:clamp(2.7rem,7vw,5rem); line-height:.98; letter-spacing:-.07em; }
+    h1 span { color:var(--accent); }
+    .lead { max-width:650px; color:var(--muted); font-size:1.06rem; }
+    .order-layout { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(250px,.75fr); gap:20px; align-items:start; padding-bottom:65px; }
+    .form-card,.info-card { border:1px solid var(--line); border-radius:17px; background:var(--panel); padding:25px; }
+    .form-card h2,.info-card h2 { margin:0 0 20px; font-size:1.35rem; letter-spacing:-.03em; }
+    .field { margin:0 0 22px; }
+    .field label,.field legend { display:block; margin:0 0 8px; color:var(--ink); font-weight:750; }
+    .hint { display:block; margin-top:7px; color:var(--muted); font-size:.83rem; }
+    select,input[type="text"],input[type="file"],textarea { width:100%; border:1px solid #3a4b57; border-radius:10px; padding:12px 13px; background:#101923; color:var(--ink); font:inherit; }
+    select:focus,input:focus,textarea:focus { outline:2px solid #b8f34a88; border-color:var(--accent); }
+    input[type="color"] { width:56px; height:48px; padding:4px; border:1px solid #3a4b57; border-radius:10px; background:#101923; }
+    .color-row { display:flex; align-items:center; gap:12px; }
+    .color-row input[type="text"] { flex:1; }
+    textarea { min-height:112px; resize:vertical; }
+    .button { display:inline-flex; justify-content:center; align-items:center; min-height:48px; width:100%; padding:13px 18px; border:0; border-radius:10px; background:var(--accent); color:#17230b; font:inherit; font-weight:850; cursor:pointer; }
+    .button:hover { filter:brightness(1.07); }
+    .note { margin:14px 0 0; color:var(--muted); font-size:.84rem; }
+    .info-card { position:sticky; top:20px; }
+    .info-card p { color:var(--muted); font-size:.94rem; }
+    .info-card a { color:var(--accent); }
+    .info-card .symbol { display:grid; place-items:center; width:42px; height:42px; margin-bottom:18px; border:1px solid #d6ff7c; border-radius:50%; background:var(--accent); color:#17230b; font-size:1.2rem; font-weight:900; }
+    footer { padding:27px 0 42px; color:var(--muted); font-size:.86rem; }
+    @media (max-width:760px) { .wrap { width:min(100% - 32px,540px); } header { gap:12px; } .order-layout { grid-template-columns:1fr; } .info-card { position:static; } .intro { padding-top:42px; } .form-card,.info-card { padding:21px; } }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <a class="brand" href="https://mason-gpt.github.io/Scracth/#inicio" aria-label="Scratch, inicio">
+      <svg class="logo-mark" viewBox="0 0 120 120" role="img" aria-label="Hornero en su nido, rodeado por el nombre Scratch">
+        <defs><path id="scratch-top" d="M 17,61 A 43,43 0 0,1 103,61"/></defs>
+        <circle cx="60" cy="60" r="53" fill="none" stroke="#b8f34a" stroke-width="2.5"/>
+        <text fill="#f3f6f8" font-size="11"><textPath href="#scratch-top" startOffset="50%" text-anchor="middle">SCRATCH</textPath></text>
+        <text x="60" y="92" fill="#aab8c4" font-size="5.2" text-anchor="middle">Estando contigo</text>
+        <text x="60" y="100" fill="#aab8c4" font-size="5.2" text-anchor="middle">desde el principio</text>
+        <path d="M18 79c0-22 18-39 42-39s42 17 42 39v3H18z" fill="#a75f3c"/>
+        <path d="M42 82V67a18 18 0 0 1 36 0v15z" fill="#101923"/>
+        <ellipse cx="57" cy="72" rx="11" ry="8.5" fill="#c77b43"/>
+        <path d="M49 71c4-7 11-8 17-4 3 2 4 5 3 8-5-3-11-2-16 1z" fill="#965432"/>
+        <path d="M54 77c5 2 10 1 14-2-1 5-5 7-10 7-3 0-6-1-8-3z" fill="#e8c49a"/>
+        <path d="M48 68c-3 3-5 6-7 9l7-2" fill="#c77b43"/>
+        <circle cx="66" cy="64" r="6" fill="#c77b43"/>
+        <path d="m71 63 8 2-8 3z" fill="#e0a743"/>
+        <circle cx="67" cy="63" r="1.25" fill="#101923"/>
+        <circle cx="67.35" cy="62.65" r=".35" fill="#fff7df"/>
+        <path d="M55 80l-1 3m7-3v3m-4 0h-4m8 0h-4" fill="none" stroke="#e0a743" stroke-width=".9" stroke-linecap="round"/>
+        <path d="M22 83h76" stroke="#d59670" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M28 73c2-9 7-17 14-22m50 22c-2-9-7-17-14-22" fill="none" stroke="#d59670" stroke-width="1.1" stroke-linecap="round"/>
+      </svg>
+      <span>SCRATCH</span>
+    </a>
+    <a class="menu-trigger" href="#menu" aria-label="Abrir menú">•••</a>
+  </header>
+  <aside class="drawer" id="menu">
+    <a class="drawer-backdrop" href="#" aria-label="Cerrar menú"></a>
+    <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Navegación del sitio">
+      <div class="drawer-head"><span>SCRATCH</span><a class="drawer-close" href="#" aria-label="Cerrar">×</a></div>
+      <nav class="drawer-links" aria-label="Secciones del sitio">
+        <a href="https://mason-gpt.github.io/Scracth/#servicios">Servicios</a>
+        <a href="https://mason-gpt.github.io/Scracth/#proceso">Cómo funciona</a>
+        <a href="https://mason-gpt.github.io/Scracth/#historia">Historia</a>
+        <a href="https://mason-gpt.github.io/Scracth/#contacto">Contacto</a>
+        <a href="https://mason-gpt.github.io/Scracth-pedidos/">Hacer un pedido</a>
+      </nav>
+    </div>
+  </aside>
+  <main>
+    <div class="wrap intro">
+      <div class="eyebrow">Estando contigo desde el principio</div>
+      <h1>Armemos tu<br><span>pedido 3D.</span></h1>
+      <p class="lead">Elegí un filamento y un color, compartí o describí tu modelo y agregá cualquier detalle que debamos tener en cuenta.</p>
+    </div>
+    <div class="wrap order-layout">
+      <section class="form-card" aria-labelledby="form-title">
+        <h2 id="form-title">Detalles del pedido</h2>
+        <form id="pedido-form">
+          <div class="field">
+            <label for="filamento">1. Elegí un filamento</label>
+            <select id="filamento" name="filamento" required>
+              <option value="" selected disabled>Seleccioná un material</option>
+              <option>ABS</option>
+              <option>PLA</option>
+              <option>ABS-GF</option>
+              <option>Stratasys ABS-ESD7</option>
+              <option>PLA-CF</option>
+              <option>PC (Polycarbonate)</option>
+              <option>PC-FR</option>
+              <option>PEEK</option>
+              <option>PPS-CF</option>
+              <option>TPU (FDM)</option>
+              <option>PETG</option>
+              <option>ASA</option>
+              <option>PETG-CF</option>
+              <option>ASA-CF</option>
+              <option>PA6-CF</option>
+              <option>PA6-GF</option>
+            </select>
+            <small class="hint">Opciones tomadas de la lista de materiales FDM/filamentos de PCBWay. La disponibilidad de Scratch se confirma al cotizar.</small>
+          </div>
+          <div class="field">
+            <label for="color-picker">2. Elegí el color</label>
+            <div class="color-row"><input id="color-picker" type="color" value="#b8f34a" aria-label="Selector de color"><input id="color-name" type="text" placeholder="Nombre o referencia del color (opcional)"></div>
+            <small class="hint">El color elegido es una referencia; confirmaremos disponibilidad.</small>
+          </div>
+          <div class="field">
+            <label for="modelo-file">3. Adjuntá o explicá el modelo</label>
+            <input id="modelo-file" type="file" accept=".stl,.3mf,.obj,.step,.stp,.amf">
+            <small class="hint">Podés elegir el archivo acá y adjuntarlo manualmente al correo que se abrirá, o describirlo abajo.</small>
+          </div>
+          <div class="field">
+            <label for="modelo-descripcion">Descripción del modelo</label>
+            <textarea id="modelo-descripcion" placeholder="Qué querés imprimir, para qué se usa y cualquier referencia útil"></textarea>
+          </div>
+          <div class="field">
+            <label for="especificaciones">4. Especificaciones extra</label>
+            <textarea id="especificaciones" placeholder="Medidas, cantidad, uso previsto, tolerancias u otros detalles"></textarea>
+          </div>
+          <button class="button" type="submit">Preparar pedido por Email</button>
+          <p class="note">Se abrirá tu aplicación de correo con los datos. El archivo no se sube automáticamente: adjuntalo en el correo antes de enviarlo.</p>
+        </form>
+      </section>
+      <aside class="info-card">
+        <span class="symbol" aria-hidden="true">◇</span>
+        <h2>Antes de enviar</h2>
+        <p>Revisá el nombre del archivo y agregá las medidas y la cantidad que necesitás. Si no sabés qué filamento conviene, contanos el uso de la pieza para que Scratch te oriente.</p>
+        <p>La lista de materiales está basada en el catálogo de <a href="https://www.pcbway.com/rapid-prototyping/3D-Printing/3D-Printing-FDM.html" target="_blank" rel="noopener noreferrer">PCBWay FDM</a>. No implica que todos estén disponibles en Scratch.</p>
+      </aside>
+    </div>
+  </main>
+  <footer class="wrap">Scratch · Servicios de impresión 3D</footer>
+  <script>
+    document.getElementById('pedido-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const filament = document.getElementById('filamento').value;
+      const color = document.getElementById('color-name').value.trim() || document.getElementById('color-picker').value;
+      const file = document.getElementById('modelo-file').files[0];
+      const description = document.getElementById('modelo-descripcion').value.trim() || 'Sin descripción.';
+      const details = document.getElementById('especificaciones').value.trim() || 'Sin especificaciones adicionales.';
+      const body = [
+        'Hola Scratch,', '',
+        'Quiero consultar por una impresión 3D.',
+        'Filamento: ' + filament,
+        'Color: ' + color,
+        'Archivo de modelo seleccionado: ' + (file ? file.name : 'No seleccionado'),
+        'Descripción del modelo: ' + description,
+        'Especificaciones extra: ' + details,
+        '',
+        'Adjunto el archivo de modelo si corresponde.'
+      ].join('\n');
+      const subject = encodeURIComponent('Consulta de impresión 3D — Scratch');
+      window.location.href = 'mailto:Contacto@scratch.com?subject=' + subject + '&body=' + encodeURIComponent(body);
+    });
+  </script>
+</body>
+</html>
