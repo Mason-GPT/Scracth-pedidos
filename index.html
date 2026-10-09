@@ -152,6 +152,31 @@
     @media (min-width:1000px) { .order-layout { grid-template-columns:minmax(0,1.45fr) minmax(280px,.75fr); gap:28px; align-items:start; } .info-card { position:sticky; top:102px; } .form-card { padding:34px; } }
     @media (max-width:760px) { .order-layout { grid-template-columns:1fr; gap:16px; padding-bottom:40px; } .info-card { position:static; order:2; } .form-card { order:1; } }
     @media (max-width:560px) { .intro.page-hero { padding:26px 20px; } .form-card,.info-card { padding:20px 17px; } .field { margin-bottom:20px; } .button { width:100%; } }
+    /* Pedidos · mesa de trabajo guiada */
+    .intro.page-hero { border-radius:8px 30px 30px 8px; border-left:4px solid var(--warm); border-color:rgba(165,104,68,.36); border-left-color:var(--warm); background-image:repeating-linear-gradient(135deg,rgba(165,104,68,.045) 0 1px,transparent 1px 18px),radial-gradient(ellipse at 92% 18%,rgba(165,104,68,.20),transparent 34%),linear-gradient(135deg,#231d1a,#191a1c 70%); }
+    .intro.page-hero::after { content:"01"; position:absolute; right:clamp(18px,6vw,96px); top:50%; transform:translateY(-50%); color:#d5a57d; font-size:clamp(8rem,18vw,15rem); font-weight:900; letter-spacing:-.1em; line-height:1; opacity:.075; pointer-events:none; }
+    .order-route { position:relative; z-index:1; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:-18px; margin-bottom:32px; }
+    .order-route::before { content:""; position:absolute; top:50%; left:15%; right:15%; border-top:1px dashed rgba(213,165,125,.44); pointer-events:none; }
+    .order-route a { position:relative; display:flex; align-items:center; gap:12px; min-height:68px; padding:10px 16px; border:1px solid rgba(213,165,125,.25); border-radius:15px; background:#1c1d20; color:var(--ink); text-decoration:none; box-shadow:0 8px 24px rgba(0,0,0,.18); transition:transform .18s ease,border-color .18s ease; }
+    .order-route a:hover { transform:translateY(-2px); border-color:var(--warm); }
+    .route-mark { display:grid; place-items:center; flex:0 0 38px; width:38px; height:38px; border:1px solid rgba(213,165,125,.5); border-radius:50%; color:#efc7a3; font-size:.76rem; font-weight:850; }
+    .order-route a > span:last-child { font-weight:750; }
+    .form-card { border-top:3px solid var(--warm); border-radius:8px 22px 22px 22px; background:linear-gradient(155deg,rgba(165,104,68,.075),transparent 34%),var(--panel); }
+    .form-card h2,.info-card h2 { display:flex; align-items:center; gap:12px; }
+    .form-card h2::before,.info-card h2::before { display:grid; place-items:center; flex:0 0 40px; width:40px; height:40px; border:1px solid rgba(213,165,125,.36); border-radius:12px; background:rgba(165,104,68,.12); color:#efc7a3; font-size:.8rem; }
+    .form-card h2::before { content:"01"; }
+    .info-card h2::before { content:"02"; }
+    .field { margin-bottom:18px; padding:12px 14px; border:1px solid transparent; border-left:2px solid rgba(165,104,68,.35); border-radius:10px; transition:border-color .18s ease,background .18s ease; }
+    .field:focus-within { border-color:rgba(213,165,125,.32); border-left-color:#d5a57d; background:rgba(165,104,68,.055); }
+    .field label { margin-bottom:9px; }
+    .field input:not([type="color"]),.field select,.field textarea,.color-row input[type="text"] { border-color:rgba(255,255,255,.12); }
+    .info-card { border-left:3px solid var(--warm); border-radius:8px 20px 20px 8px; background:linear-gradient(145deg,rgba(165,104,68,.09),transparent 70%),var(--panel); }
+    .info-card .symbol { display:grid; place-items:center; width:48px; height:48px; margin-bottom:12px; border:1px solid rgba(213,165,125,.38); border-radius:15px; background:rgba(165,104,68,.12); color:#efc7a3; font-size:1.5rem; }
+    .order-layout .button { border-color:rgba(250,216,187,.25); background:linear-gradient(135deg,#ecc19b,#bd8056); color:#21140c; box-shadow:0 10px 24px rgba(165,104,68,.19); }
+    .order-layout .button:hover { box-shadow:0 14px 30px rgba(165,104,68,.27); }
+    .note { padding:12px 14px; border-left:2px solid rgba(213,165,125,.6); background:rgba(165,104,68,.055); }
+    @media (max-width:760px) { .order-route { margin-top:-8px; margin-bottom:24px; } .order-route::before { left:17%; right:17%; } }
+    @media (max-width:560px) { .intro.page-hero::after { right:6px; top:17%; font-size:7rem; } .order-route { gap:7px; } .order-route a { flex-direction:column; justify-content:center; gap:5px; min-height:80px; padding:8px 4px; border-radius:13px; font-size:.82rem; } .route-mark { flex-basis:32px; width:32px; height:32px; font-size:.7rem; } .order-route::before { left:20%; right:20%; } .form-card h2::before,.info-card h2::before { flex-basis:36px; width:36px; height:36px; } }
   </style>
 </head>
 <body>
@@ -186,6 +211,11 @@
       <h1>Armemos tu<br><span>pedido 3D.</span></h1>
       <p class="lead">Elegí un filamento y un color, compartí o describí tu modelo y agregá cualquier detalle que debamos tener en cuenta.</p>
     </div>
+    <nav class="wrap order-route" aria-label="Pasos para preparar el pedido">
+      <a href="#filamento"><span class="route-mark">01</span><span>Material</span></a>
+      <a href="#color-picker"><span class="route-mark">02</span><span>Color</span></a>
+      <a href="#modelo-descripcion"><span class="route-mark">03</span><span>Modelo</span></a>
+    </nav>
     <div class="wrap order-layout">
       <section class="form-card" aria-labelledby="form-title">
         <h2 id="form-title">Detalles del pedido</h2>
